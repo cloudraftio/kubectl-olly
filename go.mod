@@ -1,4 +1,4 @@
-module github.com/cloudraftio/olly/kubectl-olly
+module github.com/cloudraftio/kubectl-olly
 
 go 1.22.1
 

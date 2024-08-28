@@ -53,7 +53,7 @@ func InitialModel(llm LLM, keyMapConfig KeyMapConfig) Model {
 		maxWidth: 90, // Set a default max width
 	}
 	// Add the welcome message
-	welcomeMsg := "Olly: Hello! I am an expert Observability Programmer - Olly! Ask me any questions related to Observability."
+	welcomeMsg := "Olly: Hello! I’m Olly, your expert AI assistant for Observability, crafted by CloudRaft. Whether you need insights on Thanos, Prometheus, Grafana, Mimir, or VictoriaMetrics, I’m here to assist with your questions and guide you through any observability challenges. Let’s make your monitoring and troubleshooting simpler and more efficient! How can I help you today?"
 	m.messages = append(m.messages, welcomeMsg)
 	m.updateViewportContent()
 

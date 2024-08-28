@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cloudraftio/olly/kubectl-olly/olly"
-	"github.com/cloudraftio/olly/kubectl-olly/ui"
+	"github.com/cloudraftio/kubectl-olly/olly"
+	"github.com/cloudraftio/kubectl-olly/ui"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
