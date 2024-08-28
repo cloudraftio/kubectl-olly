@@ -7,8 +7,11 @@ Welcome to **Olly**, your go-to AI chatbot for all things Observability. Whether
 ## Benefits
 
 With kubectl-olly, you can:
+
 👉 Quickly access Olly's knowledge and capabilities directly from your terminal
+
 👉 Get instant help with observability stack configurations and troubleshooting
+
 👉 Generate and analyze observability-related Kubernetes manifests
 
 This plugin bridges the gap between Kubernetes operations and observability expertise, making it easier than ever to manage and optimize your monitoring and observability setup.
@@ -37,7 +40,7 @@ brew install
 go install github.com/cloudraftio/kubectl-olly/@latest
 ```
 
-## Usage
+## 🚊 Usage
 
 To initiate an interactive session with Olly, execute the following command in your terminal:
 
