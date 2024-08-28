@@ -23,6 +23,7 @@ You can download the latest binary from the [release page](https://github.com/cl
 ### Install via Krew
 
 👉 Ensure you have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured.
+
 👉 Install the plugin using:
    ```bash
    kubectl krew install olly
