@@ -27,7 +27,9 @@ func (llm *MyLLM) GenerateResponse(question string) (string, error) {
 
 func sendRequest(question string) (string, error) {
 	url := "https://ollybackend.ambitiousflower-4724f605.centralindia.azurecontainerapps.io/api/generate"
-	payload := map[string]string{"question": question}
+	payload := map[string]string{
+		"question": question,
+	}
 	jsonData, err := json.Marshal(payload)
 	if err != nil {
 		return "", err
