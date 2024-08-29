@@ -14,7 +14,7 @@ func main() {
 
 	if olly.GetAPIKey() == "" {
 		fmt.Println("Error: OLLY_API_KEY not set. Please set it in your environment or in $HOME/.olly file.")
-		os.Exit(1)
+		// os.Exit(1)
 	}
 
 	myLLM := &olly.MyLLM{}
