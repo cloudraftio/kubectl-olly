@@ -24,16 +24,20 @@ You can download the latest binary from the [release page](https://github.com/cl
 
 👉 Ensure you have [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) installed and configured.
 
-👉 Install the plugin using:
+👉 Install the plugin using [Krew](https://krew.sigs.k8s.io/) and add kubectl-olly custom index:
    ```bash
-   kubectl krew install olly
+   kubectl krew index add olly https://github.com/cloudraftio/kubectl-olly.git
    ```
 
-### Install via [HomeBrew](https://brew.sh/) on macOS/Linux
+👉 Execute with one step:
+  ```bash
+  kubectl olly
+  ```
 
-```shell
-brew install
-```
+👉 To Remove kubectl-olly custom index:
+  ```bash
+  kubectl krew index remove olly
+  ```
 
 ### Install via go
 
