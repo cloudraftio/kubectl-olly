@@ -3,6 +3,7 @@ package ui
 import (
 	"strings"
 
+	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textarea"
 	"github.com/charmbracelet/bubbles/viewport"
@@ -17,16 +18,18 @@ type LLM interface {
 type errMsg error
 
 type Model struct {
-	viewport  viewport.Model
-	textarea  textarea.Model
-	spinner   spinner.Model
-	messages  []string
-	err       error
-	llm       LLM
-	isLoading bool
-	keymap    keyMap
-	ready     bool
-	maxWidth  int
+	viewport            viewport.Model
+	textarea            textarea.Model
+	spinner             spinner.Model
+	messages            []string
+	err                 error
+	llm                 LLM
+	isLoading           bool
+	keymap              keyMap
+	ready               bool
+	maxWidth            int
+	conversations       [][]string
+	currentConversation int
 }
 
 func InitialModel(llm LLM, keyMapConfig KeyMapConfig) Model {
@@ -45,12 +48,14 @@ func InitialModel(llm LLM, keyMapConfig KeyMapConfig) Model {
 	sp.Style = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
 
 	m := Model{
-		textarea: ta,
-		viewport: vp,
-		spinner:  sp,
-		llm:      llm,
-		keymap:   newKeyMap(keyMapConfig),
-		maxWidth: 90, // Set a default max width
+		textarea:            ta,
+		viewport:            vp,
+		spinner:             sp,
+		llm:                 llm,
+		keymap:              newKeyMap(keyMapConfig),
+		maxWidth:            90, // Set a default max width
+		conversations:       [][]string{{"Olly: Hello! I’m Olly, your expert AI assistant for Observability, crafted by CloudRaft. Whether you need insights on Thanos, Prometheus, Grafana, Mimir, or VictoriaMetrics, I’m here to assist with your questions and guide you through any observability challenges. Let’s make your monitoring and troubleshooting simpler and more efficient! How can I help you today?"}},
+		currentConversation: 0,
 	}
 	// Add the welcome message
 	welcomeMsg := "Olly: Hello! I’m Olly, your expert AI assistant for Observability, crafted by CloudRaft. Whether you need insights on Thanos, Prometheus, Grafana, Mimir, or VictoriaMetrics, I’m here to assist with your questions and guide you through any observability challenges. Let’s make your monitoring and troubleshooting simpler and more efficient! How can I help you today?"
@@ -71,10 +76,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		switch msg.Type {
-		case tea.KeyCtrlC, tea.KeyEsc:
+		switch {
+		case key.Matches(msg, m.keymap.Quit):
 			return m, tea.Quit
-		case tea.KeyEnter:
+		case key.Matches(msg, m.keymap.Submit):
 			if m.isLoading {
 				return m, nil
 			}
@@ -88,6 +93,12 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.textarea.Reset()
 			cmds = append(cmds, m.generateResponse(question))
 			cmds = append(cmds, m.spinner.Tick)
+			m.updateViewportContent()
+
+		case key.Matches(msg, m.keymap.NewConversation):
+			m.currentConversation = len(m.conversations)
+			m.conversations = append(m.conversations, []string{"Olly: Hello! I’m Olly, your expert AI assistant for Observability, crafted by CloudRaft. Whether you need insights on Thanos, Prometheus, Grafana, Mimir, or VictoriaMetrics, I’m here to assist with your questions and guide you through any observability challenges. Let’s make your monitoring and troubleshooting simpler and more efficient! How can I help you today?"})
+			m.messages = m.conversations[m.currentConversation]
 			m.updateViewportContent()
 
 		}
@@ -163,6 +174,8 @@ func (m Model) View() string {
 		sb.WriteString(m.spinner.View() + " Thinking...")
 	} else {
 		sb.WriteString(m.textarea.View())
+		sb.WriteString("\n")
+		sb.WriteString(m.getHintText()) // Add the hint text here
 	}
 	return sb.String()
 }
@@ -175,4 +188,10 @@ func (m Model) generateResponse(question string) tea.Cmd {
 		}
 		return answer
 	}
+}
+
+func (m Model) getHintText() string {
+	return lipgloss.NewStyle().
+		Foreground(lipgloss.Color("241")).
+		Render("Submit: enter | Quit: ctrl+c, esc | New Conversation: ctrl+n")
 }
