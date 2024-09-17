@@ -18,7 +18,39 @@ This plugin bridges the gap between Kubernetes operations and observability expe
 
 ## Installation
 
-You can download the latest binary from the [release page](https://github.com/cloudraftio/kubectl-olly/releases).
+### Local Installation
+
+👉 Download the latest binary for your operating system from the [release page](https://github.com/cloudraftio/kubectl-olly/releases).
+
+👉 Make the binary executable:
+   ```bash
+   chmod +x kubectl-olly
+   ```
+
+👉 Move the binary to a directory in your PATH. For example:
+   ```bash
+   mv kubectl-olly /usr/local/bin/
+   ```
+
+👉 For Mac users: Before executing the file, run the following command to resolve potential security warnings:
+   ```bash
+   xattr -d com.apple.quarantine kubectl-olly
+   ```
+
+👉 Set the OLLY_API_KEY environment variable:
+    ```bash
+    export OLLY_API_KEY=fake
+    ```
+    You can add this line to your shell configuration file (e.g., ~/.bashrc, ~/.zshrc) to make it persistent across terminal sessions.
+
+👉 Execute with one step:
+    ```bash
+    kubectl olly
+    ```
+    or
+    ```bash
+    kubectl-olly
+    ```
 
 ### Install via Krew
 
@@ -28,22 +60,25 @@ You can download the latest binary from the [release page](https://github.com/cl
    ```bash
    kubectl krew index add olly https://github.com/cloudraftio/kubectl-olly.git
    ```
+   ```bash
+   kubectl krew install olly/olly
+   ```
 
 👉 Execute with one step:
-  ```bash
-  kubectl olly
-  ```
+    ```bash
+    kubectl olly
+    ```
+
+👉 Set the OLLY_API_KEY environment variable:
+    ```bash
+    export OLLY_API_KEY=fake
+    ```
+    You can add this line to your shell configuration file (e.g., ~/.bashrc, ~/.zshrc) to make it persistent across terminal sessions.
 
 👉 To Remove kubectl-olly custom index:
-  ```bash
-  kubectl krew index remove olly
-  ```
-
-### Install via go
-
-```shell
-go install github.com/cloudraftio/kubectl-olly/@latest
-```
+    ```bash
+    kubectl krew index remove olly
+    ```
 
 ## 🚊 Usage
 
